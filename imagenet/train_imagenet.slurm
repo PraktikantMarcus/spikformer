@@ -32,7 +32,7 @@ OUTPUT_DIR="/nfsscratch/fritzsche/spikformer_output"
 LOG_DIR="/nfsscratch/fritzsche/imagenet/logs"
 
 # Training hyperparameters (override imagenet.yml defaults here if needed)
-TARGET_EPOCHS=310      # total epochs to train (paper: 310)
+TARGET_EPOCHS=320      # timm schedules epochs + cooldown_epochs (310 + 10 = 320)
 NUM_GPUS=8
 BATCH_SIZE=32          # per-GPU batch size  (32 × 8 GPUs = 256 total, matching paper)
 VAL_BATCH_SIZE=64      # no gradients at val — can double the batch
