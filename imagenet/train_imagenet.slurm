@@ -119,8 +119,6 @@ torchrun \
     --smoothing 0.1 \
     --amp \
     --pin-mem \
-    --dist-bn reduce \
-    --sync-bn \
     --checkpoint-hist 3 \
     --log-interval 500 \
     --seed 42 \
