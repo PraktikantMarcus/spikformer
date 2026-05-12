@@ -14,31 +14,29 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 #SBATCH --job-name=spikformer_imagenet
-#SBATCH --partition=gpu                  # adjust to your cluster's GPU partition
+#SBATCH --partition=normal
+#SBATCH --nodelist=multigpu
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4             # one task per GPU
-#SBATCH --gres=gpu:4                    # 4 GPUs per node
-#SBATCH --cpus-per-task=8              # 8 CPU workers per GPU
-#SBATCH --mem=256G
+#SBATCH --ntasks-per-node=8             # one task per GPU
+#SBATCH --gres=gpu:8                    # all 8 H100s
+#SBATCH --cpus-per-task=12             # 12 × 8 = 96 cores (128 physical available)
+#SBATCH --mem=400G
 #SBATCH --time=24:00:00                 # wall-clock limit
-#SBATCH --output=/nfsscratch/fritzsche/logs/spikformer_%j.out
-#SBATCH --error=/nfsscratch/fritzsche/logs/spikformer_%j.err
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=marcusfritzsche1@gmail.com
+#SBATCH --output=/nfsscratch/fritzsche/imagenet/logs/spikformer_%j.out
+#SBATCH --error=/nfsscratch/fritzsche/imagenet/logs/spikformer_%j.err
 
-# ── User-configurable paths ───────────────────────────────────────────────────
-CONDA_ENV="spikformer"                              # conda environment name
-PROJECT_DIR="$HOME/projects/spikformer/imagenet"   # path to this repo's imagenet/ folder
+# ── User-configurable paths ───────────────────────────────────────────────────                          # conda environment name
+PROJECT_DIR="/home/fritzsche/Spikformer/imagenet"   # path to this repo's imagenet/ folder
 DATA_DIR="/nfsscratch/fritzsche/imagenet"
 OUTPUT_DIR="/nfsscratch/fritzsche/spikformer_output"
-LOG_DIR="/nfsscratch/fritzsche/logs"
+LOG_DIR="/nfsscratch/fritzsche/imagenet/logs"
 
 # Training hyperparameters (override imagenet.yml defaults here if needed)
 TARGET_EPOCHS=310      # total epochs to train (paper: 310)
-NUM_GPUS=4
-BATCH_SIZE=32          # per-GPU batch size  (32 * 4 GPUs = 128 total, matching paper)
-VAL_BATCH_SIZE=32
-WORKERS=8              # dataloader workers per GPU
+NUM_GPUS=8
+BATCH_SIZE=32          # per-GPU batch size  (32 × 8 GPUs = 256 total, matching paper)
+VAL_BATCH_SIZE=64      # no gradients at val — can double the batch
+WORKERS=10             # dataloader workers per GPU (10 × 8 = 80; 2 CPUs reserved per task)
 WALL_TIME=23           # stop gracefully this many hours into the job
 
 # ── Environment setup ─────────────────────────────────────────────────────────
@@ -46,13 +44,10 @@ mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
 
 # Load required modules (adapt to your HPC's module system)
 module purge
-module load cuda/11.8          # adjust version as needed
-module load cudnn/8.6-cuda-11.8
-module load gcc/11.3
+module load cuda/12.3
+module load gnu12/12.3.0
 
-# Activate conda environment
-source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate "$CONDA_ENV"
+source /home/fritzsche/qkformer/bin/activate
 
 # ── Checkpoint auto-detection ─────────────────────────────────────────────────
 # timm's CheckpointSaver writes checkpoint-{epoch}.pth.tar; pick the newest.
@@ -105,8 +100,8 @@ torchrun \
     --batch-size "$BATCH_SIZE" \
     --val-batch-size "$VAL_BATCH_SIZE" \
     --workers "$WORKERS" \
-    --opt adamw \
-    --lr 5e-4 \
+    --opt adamw \    #from paper
+    --lr 5e-4 \         
     --min-lr 1e-5 \
     --weight-decay 5e-2 \
     --sched cosine \
