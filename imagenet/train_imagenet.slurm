@@ -17,9 +17,9 @@
 #SBATCH --partition=normal
 #SBATCH --nodelist=multigpu
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8             # one task per GPU
-#SBATCH --gres=gpu:8                    # all 8 H100s
-#SBATCH --cpus-per-task=12             # 12 × 8 = 96 cores (128 physical available)
+#SBATCH --ntasks-per-node=1             # single task — torchrun spawns 8 processes internally
+#SBATCH --gres=gpu:8                    # all 8 H100s visible to that task
+#SBATCH --cpus-per-task=96             # all 96 cores for the one task
 #SBATCH --mem=0                         # 0 = all available memory on the node
 #SBATCH --time=24:00:00                 # wall-clock limit
 #SBATCH --output=/nfsscratch/fritzsche/imagenet/logs/spikformer_%j.out
