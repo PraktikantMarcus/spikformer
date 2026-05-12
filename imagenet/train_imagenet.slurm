@@ -6,10 +6,10 @@
 # TARGET_EPOCHS epochs are finished.
 #
 # First submission:
-#   sbatch train_imagenet.slurm
+#   sbatch spikformer_imagenet.slurm
 #
 # Subsequent jobs are chained automatically via sbatch --dependency.
-# You can also re-submit manually at any time — it will resume from the latest
+# Re-submit manually at any time is possible — it will resume from the latest
 # checkpoint found in OUTPUT_DIR.
 # ─────────────────────────────────────────────────────────────────────────────
 
