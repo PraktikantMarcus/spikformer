@@ -20,7 +20,7 @@
 #SBATCH --ntasks-per-node=8             # one task per GPU
 #SBATCH --gres=gpu:8                    # all 8 H100s
 #SBATCH --cpus-per-task=12             # 12 × 8 = 96 cores (128 physical available)
-#SBATCH --mem=400G
+#SBATCH --mem=0                         # 0 = all available memory on the node
 #SBATCH --time=24:00:00                 # wall-clock limit
 #SBATCH --output=/nfsscratch/fritzsche/imagenet/logs/spikformer_%j.out
 #SBATCH --error=/nfsscratch/fritzsche/imagenet/logs/spikformer_%j.err
@@ -100,8 +100,8 @@ torchrun \
     --batch-size "$BATCH_SIZE" \
     --val-batch-size "$VAL_BATCH_SIZE" \
     --workers "$WORKERS" \
-    --opt adamw \    #from paper
-    --lr 5e-4 \         
+    --opt adamw \
+    --lr 5e-4 \
     --min-lr 1e-5 \
     --weight-decay 5e-2 \
     --sched cosine \
