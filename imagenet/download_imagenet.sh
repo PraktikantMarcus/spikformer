@@ -37,13 +37,14 @@ download_tar() {
         echo "  $out already exists, skipping download."
         return
     fi
-    if [[ -z "$IMAGENET_USER" || -z "$IMAGENET_PASS" ]]; then
-        echo "ERROR: $out not found and no credentials supplied."
-        echo "  Either place $out in $DEST_DIR or re-run with --user / --password."
-        exit 1
-    fi
+    # if [[ -z "$IMAGENET_USER" || -z "$IMAGENET_PASS" ]]; then
+    #     echo "ERROR: $out not found and no credentials supplied."
+    #     echo "  Either place $out in $DEST_DIR or re-run with --user / --password."
+    #     exit 1
+    # fi
     echo "  Downloading $out ..."
-    wget --user="$IMAGENET_USER" --password="$IMAGENET_PASS" \
+    # wget --user="$IMAGENET_USER" --password="$IMAGENET_PASS" \
+    wget --user="Fritzsche" --password="Save" \
          -c -q --show-progress \
          -O "$out" "$url"
 }
