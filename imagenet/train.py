@@ -317,6 +317,7 @@ def main():
     args.world_size = 1
     args.rank = 0  # global rank
     if args.distributed:
+        args.local_rank = int(os.environ.get('LOCAL_RANK', args.local_rank))
         args.device = 'cuda:%d' % args.local_rank
         torch.cuda.set_device(args.local_rank)
         torch.distributed.init_process_group(backend='nccl', init_method='env://')
