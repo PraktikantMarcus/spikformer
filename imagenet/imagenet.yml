@@ -38,4 +38,4 @@ warmup_lr: 0.000001
 opt: adamw
 smoothing: 0.1
 workers: 8
-resume: /home/zhou/new_disk/Transformer-SNN/imagenet/src_5/pretrained/svit-8-512.pth.tar
+resume: ''
