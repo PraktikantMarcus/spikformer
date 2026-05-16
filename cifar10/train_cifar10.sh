@@ -17,14 +17,14 @@
 #SBATCH --cpus-per-task=96
 #SBATCH --mem=0
 #SBATCH --time=8:00:00
-#SBATCH --output=/home/fritzsche/cifar10/logs/spikformer_cifar10_%j.out
-#SBATCH --error=/home/fritzsche/cifar10/logs/spikformer_cifar10_%j.err
+#SBATCH --output=/home/fritzsche/Spikformer/cifar10/logs/spikformer_cifar10_%j.out
+#SBATCH --error=/home/fritzsche/Spikformer/cifar10/logs/spikformer_cifar10_%j.err
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 PROJECT_DIR="/home/fritzsche/Spikformer/cifar10"
 DATA_DIR="/home/fritzsche/cifar10"
 OUTPUT_DIR="/nfsscratch/fritzsche/spikformer_output/cifar10"
-LOG_DIR="/home/fritzsche/cifar10/logs"
+LOG_DIR="/home/fritzsche/Spikformer/cifar10/logs"
 
 # ── Environment setup ─────────────────────────────────────────────────────────
 mkdir -p "$LOG_DIR" "$OUTPUT_DIR"
