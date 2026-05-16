@@ -147,7 +147,7 @@ parser.add_argument('--warmup-lr', type=float, default=0.0001, metavar='LR',
 parser.add_argument('--min-lr', type=float, default=1e-5, metavar='LR',
                     help='lower lr bound for cyclic schedulers that hit 0 (1e-5)')
 parser.add_argument('--epochs', type=int, default=200, metavar='N',
-                    help='number of epochs to train (default: 2)')
+                    help='number of epochs to train (default: 200)')
 parser.add_argument('--epoch-repeats', type=float, default=0., metavar='N',
                     help='epoch repeat multiplier (number of times to repeat dataset epoch per train epoch).')
 parser.add_argument('--start-epoch', default=None, type=int, metavar='N',
