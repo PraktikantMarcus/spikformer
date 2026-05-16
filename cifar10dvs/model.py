@@ -5,7 +5,6 @@ from spikingjelly.clock_driven import layer, surrogate
 from timm.models.layers import to_2tuple, trunc_normal_, DropPath
 from timm.models.registry import register_model
 from timm.models.vision_transformer import _cfg
-from einops.layers.torch import Rearrange
 import torch.nn.functional as F
 from functools import partial
 
