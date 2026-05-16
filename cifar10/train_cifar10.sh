@@ -62,6 +62,8 @@ torchrun \
     -data-dir "$DATA_DIR" \
     --output "$OUTPUT_DIR" \
     --experiment spikformer_cifar10 \
+    --batch-size 16 \
+    --val-batch-size 32 \
     --workers 8 \
     --pin-mem \
     --checkpoint-hist 3 \
